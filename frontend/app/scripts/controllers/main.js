@@ -20,8 +20,13 @@ angular.module('frontendApp')
 
     function init() {
       $scope.model.customerNumber = '';
+      $scope.model.isValidNumber  = false;
       $scope.model.selectedProvider = $scope.model.providers[0] || '';
     }
+     
+    $scope.$watch('model.customerNumber', function(newVal , oldVal) {
+			$scope.model.isValidNumber = newVal.length > 10;
+		});
 
     function getProviders() {
       $http.get('providers.json').then(function(response) {
