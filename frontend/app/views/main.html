@@ -1,0 +1,37 @@
+  <h1> <span class="glyphicon glyphicon-phone-alt"></span> We call for you!</h1>
+  <p class="lead">
+    We call your 'favorite' hotline for you. We will call you back once we have
+    a real person on the line.
+  </p>
+
+<div class="jumbotron">
+  <form>
+    <div class="form-group">
+      <h3>Your number</h3>
+      <input type="text" id="number" class="form-control input-lg" id="exampleInputEmail1" placeholder="Telephone number">
+    </div>
+
+    <div class="form-group">
+        <h3>Number you want to call?</h3>
+        <select id="provider" class="form-control input-lg">
+        <option ng-repeat="provider in model.providers">{{provider.label}} - {{provider.number}}</option>
+      </select>
+    </div>
+    <button class="btn btn-success">Call for me</button>
+  </form>
+</div>
+</div>
+
+<div class="row marketing">
+  <div class="col-lg-4">
+    <h3>No waiting time</h3>
+  </div>
+
+  <div class="col-lg-4">
+    <h3>No waiting time</h3>
+  </div>
+
+  <div class="col-lg-4">
+    <h3>No waiting time</h3>
+  </div>
+</div>
