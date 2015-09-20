@@ -1,38 +1,33 @@
 'use strict';
 
-/**
- * @ngdoc function
- * @name frontendApp.controller:MainCtrl
- * @description
- * # MainCtrl
- * Controller of the frontendApp
- */
 angular.module('frontendApp')
   .controller('MainCtrl', function ($scope, $http) {
 
-    var URL = 'http://localhost:9000/api';
+    var URL;
     $scope.model = {};
     $scope.call = call;
     $scope.model.providers = [];
 
     init();
-    getProviders();
+    getConfig();
 
     function init() {
       $scope.model.customerNumber = '';
       $scope.model.isValidNumber  = false;
       $scope.model.selectedProvider = $scope.model.providers[0] || '';
     }
-     
+
     $scope.$watch('model.customerNumber', function(newVal , oldVal) {
-			$scope.model.isValidNumber = newVal.length > 10;
+			$scope.model.isValidNumber = newVal.length > 5;
 		});
 
-    function getProviders() {
-      $http.get('providers.json').then(function(response) {
-        $scope.model.providers = response.data;
+    function getConfig() {
+      $http.get('configuration.json').then(function(response) {
+        $scope.model.providers = response.data.providers;
+        URL = response.data.url;
 
-        if (response.data.length > 0) {
+        // preselect first provider
+        if ($scope.model.providers.length > 0) {
           $scope.model.selectedProvider = $scope.model.providers[0];
         }
       });
@@ -44,10 +39,13 @@ angular.module('frontendApp')
         provider: $scope.model.selectedProvider.key,
         date: new Date()
       };
-      $http.post(URL, payload)
-      .then(function (data) {
-        init();
-      }, function (err) {
+      $http({
+        withCredentials: true,
+        url: URL,
+        method: 'GET',
+        params: payload
+      })
+      .finally(function() {
         init();
       });
     }
